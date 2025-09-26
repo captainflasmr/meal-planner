@@ -1,0 +1,112 @@
+* Planning my Weekly meals in Emacs!
+
+And what have I been working on recently?, well lets consider the following question...
+
+- What should we eat Monday through Friday?
+- What about the weekend when we have more time to cook?
+- Didn't we just have pasta last week? And the week before?
+- How do I plan for batch cooking without ending up with the same meal rotation?
+- Where did I put that list of meal ideas again?
+
+And what has all this to do with Emacs I hear to you say?, well as some of you might have guessed I thought I would let Emacs take the stress out of these types of decisions by writing a very simple meal planning package and instead of trying to be everything to everyone I have just decided to focus it on solving one specific problem: *generating varied weekly meal plans that support batch cooking workflows*.
+
+Here is a link to the package : https://github.com/captainflasmr/meal-planner
+
+Here's how it works:
+
+Your meals are stored in simple text files, one meal per line:
+
+#+begin_src 
+Chicken curry batch
+Pasta bake leftovers  
+Soup and sandwiches
+Stir fry portions
+#+end_src
+
+and one file per category (which I shall explain later)
+
+#+begin_src bash
+weekday-dinner.txt
+weekday-lunch.txt
+weekday-pudding.txt
+weekday-sweet.txt
+weekend-dessert.txt
+weekend-dinner.txt
+weekend-lunch.txt
+#+end_src
+
+Need to add a new meal? Just edit the text file. Want to remove something you're tired of? delete the line and who knows, maybe for fun, add these files to your favourite Emacs LLM integration, gptel of course or my personal favourite (as I wrote it) https://github.com/captainflasmr/ollama-buddy and see what myriad of fantastical foods it can add!
+
+I have simplified the whole concept as much as possible, so instead of planning individual meals for each day (which gets repetitive and tiresome), it recognizes that many of us batch cook, so:
+
+- *Weekdays (Monday-Friday)*: One set of meals for the entire week
+- *Weekend (Saturday-Sunday)*: A different set of meals for more relaxed cooking and possibly straight from the freezer!
+
+When you run =M-x meal-planner-generate-week=, you will get something like:
+
+#+begin_src 
+=== MEAL PLAN - Week 42 ===
+
+WEEKDAYS (Monday-Friday):
+  Weekday lunch: Chicken curry batch
+  Weekday sweet: Apple slices  
+  Weekday dinner: Pasta bake
+  Weekday pudding: Jam sponge
+
+WEEKEND (Saturday-Sunday):
+  Weekend lunch: Omelette
+  Weekend dinner: Beef stew
+  Weekend dessert: Eton mess
+#+end_src
+
+Also the package automatically tracks what you've eaten in recent weeks and avoids suggesting the same combinations. No more "didn't we just have this last week?" moments.
+
+The package supports different types of meals to match my current real-world eating patterns:
+
+*Weekday Categories:*
+
+- Lunch meals (lunchbox-friendly)
+- Sweet snacks/desserts
+- Main dinner meals
+- Evening puddings/desserts
+
+*Weekend Categories:*
+
+- Leisurely lunch meals
+- Weekend dinner meals  
+- Weekend desserts
+
+Here's how meal-planner.el fits into our weekly routine:
+
+*Sunday Morning*: Run =M-x meal-planner-generate-week= while having coffee. The package suggests a week's worth of meals, carefully avoiding anything we've had recently.
+
+*Sunday Afternoon*: Use =M-x meal-planner-edit-category= to quickly add any new meal ideas we've discovered, or remove things we're temporarily tired of.
+
+*Shopping*: The meal plan gives us a clear shopping list foundation for when we do our weekly online order.
+
+*Weekday Evenings*: No decisions needed! We already know what we're having, and the ingredients are ready to go!
+
+Installation is straightforward:
+
+#+begin_src elisp
+;; Add to your init.el
+(require 'meal-planner)
+#+end_src
+
+Then run the setup command to create sample meal files:
+
+#+begin_src elisp
+M-x meal-planner-setup-data-files
+#+end_src
+
+This creates a =~/.emacs.d/meal-data/= directory with sample meals for each category. Edit these files to match your preferences, then generate your first meal plan:
+
+#+begin_src elisp
+M-x meal-planner-generate-week
+#+end_src
+
+This package embodies one aspect I love about Emacs, taking a real-world problem and solving it in an elegant, customizable way and now my brain has a little more space to accommodate more Emacs rabbit holes.
+
+No more Sunday evening meal planning stress. No more repetitive weekly menus. No more "what's for dinner?" panic.
+
+Just =M-x meal-planner-generate-week=, and get on with your life.
