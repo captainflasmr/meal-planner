@@ -1,0 +1,236 @@
+#+title: Meal Planner for Emacs
+#+author: James Dyer
+#+email: captainflasmr@gmail.com
+#+language: en
+#+options: ':t toc:nil author:nil email:nil num:nil title:nil
+#+todo: TODO DOING | DONE
+#+startup: showall
+
+*An Emacs package for intelligent weekly meal planning with batch cooking support and rotation tracking.*
+
+Perfect for couples and families who want to plan weekly meals efficiently, avoid repetition, and support batch cooking workflows.
+
+* Features
+
+- *Batch Cooking Support*: Plan the same meals for weekdays (Mon-Fri) and separate meals for weekends
+- *Smart Rotation*: Automatically avoids repeating meals for a configurable number of weeks (default: 4 weeks)
+- *Simple Data Management*: Store meals in plain text files - one meal per line, easily editable
+- *Meal Categories*: Supports different meal types:
+  - Weekday: lunch, sweet snack, dinner, pudding
+  - Weekend: lunch, dinner, dessert
+- *History Tracking*: Persistent storage of meal selections across weeks
+- *Intelligent Selection*: Random selection from available meals, filtering out recently used options
+- *Clear Output*: Formatted meal plans with both batch view and daily breakdown
+
+* Screenshots
+
+#+BEGIN_EXAMPLE
+=== MEAL PLAN - Week 42 ===
+
+WEEKDAYS (Monday-Friday):
+Cook once, eat all week!
+  Weekday lunch: Chicken curry batch
+  Weekday sweet: Apple slices  
+  Weekday dinner: Pasta bake
+  Weekday pudding: Ice cream
+
+WEEKEND (Saturday-Sunday):
+  Weekend lunch: Full English breakfast
+  Weekend dinner: Sunday roast
+  Weekend dessert: Homemade cake
+
+=== DAILY BREAKDOWN ===
+Monday:
+  Weekday lunch: Chicken curry batch
+  Weekday sweet: Apple slices
+  Weekday dinner: Pasta bake
+  Weekday pudding: Ice cream
+...
+#+END_EXAMPLE
+
+* Installation
+
+** Manual Installation
+
+1. Download =meal-planner.el= and place it in your Emacs load path
+2. Add to your Emacs configuration:
+
+#+BEGIN_SRC emacs-lisp
+(require 'meal-planner)
+#+END_SRC
+
+** Package Repositories
+
+/Coming soon: MELPA support/
+
+* Quick Start
+
+1. *Initialize sample data*:
+   #+BEGIN_SRC
+   M-x meal-planner-setup-data-files
+   #+END_SRC
+
+2. *Generate your first meal plan*:
+   #+BEGIN_SRC  
+   M-x meal-planner-generate-week
+   #+END_SRC
+
+3. *Customize meals for your preferences*:
+   #+BEGIN_SRC
+   M-x meal-planner-edit-category weekday-lunch
+   #+END_SRC
+
+* Configuration
+
+** Basic Settings
+
+#+BEGIN_SRC emacs-lisp
+;; Customize the data directory
+(setq meal-planner-data-directory "~/my-meals/")
+
+;; Change rotation period (weeks to avoid duplicates)
+(setq meal-planner-rotation-weeks 6)
+
+;; Custom history file location  
+(setq meal-planner-history-file "my-meal-history.el")
+#+END_SRC
+
+** Using Customize Interface
+
+#+BEGIN_SRC
+M-x customize-group meal-planner
+#+END_SRC
+
+* Usage
+
+** Main Commands
+
+| Command                         | Description                          |
+|---------------------------------+--------------------------------------|
+| =meal-planner-generate-week=    | Generate a complete weekly meal plan |
+| =meal-planner-edit-category=    | Edit meals for a specific category   |
+| =meal-planner-view-history=     | View past meal selections            |
+| =meal-planner-setup-data-files= | Create initial sample meal data      |
+| =meal-planner-clear-history=    | Clear all meal selection history     |
+
+** Meal Categories
+
+*** Weekday Categories (Batch Cooking)
+
+- =weekday-lunch=: Lunchbox meals (same all week)
+- =weekday-sweet=: Sweet snacks/desserts for lunchboxes
+- =weekday-dinner=: Main evening meals  
+- =weekday-pudding=: Evening desserts
+
+*** Weekend Categories
+
+- =weekend-lunch=: Saturday/Sunday lunch meals
+- =weekend-dinner=: Weekend dinner meals
+- =weekend-dessert=: Weekend desserts
+
+** Data File Format
+
+Meals are stored in simple text files, one meal per line:
+
+#+BEGIN_EXAMPLE
+# weekday-lunch.txt
+Chicken curry batch
+Pasta bake leftovers  
+Soup and sandwiches
+Stir fry portions
+Chili con carne
+#+END_EXAMPLE
+
+* Directory Structure
+
+The package creates the following structure:
+
+#+BEGIN_EXAMPLE
+~/.emacs.d/meal-data/
+├── weekday-lunch.txt
+├── weekday-sweet.txt  
+├── weekday-dinner.txt
+├── weekday-pudding.txt
+├── weekend-lunch.txt
+├── weekend-dinner.txt
+├── weekend-dessert.txt
+└── meal-history.el
+#+END_EXAMPLE
+
+* Advanced Usage
+
+** Planning Future Weeks
+
+#+BEGIN_SRC emacs-lisp
+;; Plan next week
+(meal-planner-generate-week 1)
+
+;; Plan two weeks ahead  
+(meal-planner-generate-week 2)
+#+END_SRC
+
+** Batch Editing Multiple Categories
+
+#+BEGIN_SRC emacs-lisp
+;; Edit all weekday categories
+(dolist (category '(weekday-lunch weekday-sweet weekday-dinner weekday-pudding))
+  (meal-planner-edit-category category))
+#+END_SRC
+
+* Troubleshooting
+
+** Common Issues
+
+*** "No meals available" Error
+
+- Check that data files exist and contain meals
+- Run =M-x meal-planner-setup-data-files= to create sample data
+- Verify file permissions in the data directory
+
+*** Meals Repeating Too Often
+
+- Increase =meal-planner-rotation-weeks= setting
+- Add more meal options to your data files
+- Check that history file is being saved correctly
+
+*** Cannot Find Data Files
+
+- Verify =meal-planner-data-directory= setting
+- Ensure directory exists and is writable
+- Check file names match expected format
+
+* Contributing
+
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch: =git checkout -b feature-name=
+3. Make your changes and add tests
+4. Commit your changes: =git commit -am 'Add feature'=
+5. Push to the branch: =git push origin feature-name=
+6. Submit a pull request
+
+** Development Setup
+
+#+BEGIN_SRC bash
+git clone https://github.com/captainflasmr/meal-planner.git
+cd meal-planner
+#+END_SRC
+
+* Roadmap
+
+- [ ] Export meal plans to org-mode/calendar formats
+- [ ] Shopping list generation
+- [ ] Dietary restriction filtering
+
+* License
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+* Support
+
+- *Bug Reports*: [[https://github.com/yourusername/meal-planner/issues][GitHub Issues]]
+- *Discussions*: [[https://github.com/yourusername/meal-planner/discussions][GitHub Discussions]]  
+- *Email*: your.email@example.com
